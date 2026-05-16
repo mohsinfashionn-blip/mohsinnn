@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohsin Fashion</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#c9d6ff,#e2e2e2,#fbc2eb);
+min-height:100vh;
+overflow-x:hidden;
+}
+
+/* NAV */
+
+nav{
+padding:20px 8%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:sticky;
+top:0;
+background:rgba(255,255,255,0.2);
+backdrop-filter:blur(10px);
+z-index:1000;
+}
+
+.logo{
+font-size:32px;
+font-weight:700;
+color:#111;
+}
+
+.logo span{
+color:#ff3c78;
+}
+
+.btn{
+padding:10px 20px;
+border:none;
+border-radius:20px;
+cursor:pointer;
+font-weight:600;
+background:white;
+transition:0.3s;
+margin:5px;
+}
+
+.btn:hover{
+transform:translateY(-2px);
+}
+
+/* HERO */
+
+.hero{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:60px 8%;
+flex-wrap:wrap;
+gap:30px;
+}
+
+.hero-text{
+max-width:600px;
+}
+
+.hero-text h1{
+font-size:55px;
+line-height:1.2;
+color:#111;
+}
+
+.hero-text h1 span{
+color:#ff3c78;
+}
+
+.hero-text p{
+margin-top:15px;
+font-size:18px;
+color:#333;
+}
+
+.hero-box{
+width:280px;
+height:280px;
+border-radius:30px;
+background:rgba(255,255,255,0.25);
+backdrop-filter:blur(10px);
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:28px;
+font-weight:700;
+cursor:pointer;
+transition:0.3s;
+}
+
+.hero-box:hover{
+transform:scale(1.05);
+}
+
+/* PRODUCTS */
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+padding:40px 8%;
+}
+
+.product{
+background:rgba(255,255,255,0.25);
+padding:20px;
+border-radius:20px;
+backdrop-filter:blur(10px);
+text-align:center;
+}
+
+.product img{
+width:100%;
+height:250px;
+object-fit:cover;
+border-radius:15px;
+margin-bottom:10px;
+}
+
+.product h3{
+margin:10px 0;
+color:#111;
+}
+
+/* ADMIN */
+
+.admin-box{
+margin:40px 8%;
+padding:25px;
+border-radius:20px;
+background:rgba(255,255,255,0.25);
+backdrop-filter:blur(10px);
+}
+
+input{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+margin:8px 0;
+outline:none;
+}
+
+.hidden{
+display:none;
+}
+
+/* ABOUT */
+
+.about{
+margin:40px 8%;
+padding:25px;
+border-radius:20px;
+background:rgba(255,255,255,0.25);
+backdrop-filter:blur(10px);
+color:#111;
+}
+
+footer{
+padding:30px;
+text-align:center;
+font-weight:600;
+color:#111;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+
+<nav>
+
+<div class="logo">
+Mohsin <span>Fashion</span>
+</div>
+
+<a href="https://wa.me/918121969815" target="_blank">
+<button class="btn">
+WhatsApp Order
+</button>
+</a>
+
+</nav>
+
+<!-- HERO -->
+
+<div class="hero">
+
+<div class="hero-text">
+
+<h1>
+Style That Defines <span>You</span>
+</h1>
+
+<p>
+Beautiful ladies dresses, handbags and fashion accessories directly from Mohsin Fashion.
+</p>
+
+<button class="btn" onclick="showHome()">
+Home
+</button>
+
+<button class="btn" onclick="showNew()">
+New Arrivals
+</button>
+
+</div>
+
+<div class="hero-box" onclick="showNew()">
+✨ New Arrivals
+</div>
+
+</div>
+
+<!-- HOME -->
+
+<div id="home" class="products"></div>
+
+<!-- NEW ARRIVALS -->
+
+<div id="new" class="products hidden"></div>
+
+<!-- ADMIN -->
+
+<div class="admin-box">
+
+<h2>Admin Panel</h2>
+
+<input type="password" id="pass" placeholder="Enter Password">
+
+<button class="btn" onclick="login()">
+Login
+</button>
+
+<button class="btn hidden" id="logoutBtn" onclick="logout()">
+Logout
+</button>
+
+<div id="panel" class="hidden">
+
+<h3>Add Product</h3>
+
+<input id="name" placeholder="Product Name">
+
+<input id="price" placeholder="Price">
+
+<input id="stock" placeholder="Stock">
+
+<input type="file" id="img" accept="image/*">
+
+<button class="btn" onclick="addProduct()">
+Add Product
+</button>
+
+</div>
+
+</div>
+
+<!-- ABOUT -->
+
+<div class="about">
+
+<h2>About Mohsin Fashion</h2>
+
+<p>
+Mohsin Fashion is a modern home-based ladies fashion store offering stylish dresses, handbags and accessories at affordable prices.
+</p>
+
+</div>
+
+<footer>
+© 2026 Mohsin Fashion
+</footer>
+
+<script>
+
+/* PASSWORD */
+
+const adminPassword = "J@v33d@20";
+
+let isAdmin = false;
+
+/* ARRAYS */
+
+let home = [];
+
+let newArrivals = [];
+
+/* DEFAULT PRODUCTS */
+
+const defaultHome = [
+
+{
+name:"Ladies Dress",
+price:1200,
+stock:"Available",
+img:"https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=600&q=80"
+},
+
+{
+name:"Fashion Handbag",
+price:900,
+stock:"Available",
+img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80"
+}
+
+];
+
+/* PAGE SWITCH */
+
+function showHome(){
+
+document.getElementById("home").classList.remove("hidden");
+
+document.getElementById("new").classList.add("hidden");
+
+renderHome();
+
+}
+
+function showNew(){
+
+document.getElementById("home").classList.add("hidden");
+
+document.getElementById("new").classList.remove("hidden");
+
+renderNew();
+
+}
+
+/* IMAGE READER */
+
+function readImage(file, callback){
+
+let reader = new FileReader();
+
+reader.onload = function(e){
+
+callback(e.target.result);
+
+};
+
+reader.readAsDataURL(file);
+
+}
+
+/* RENDER HOME */
+
+function renderHome(){
+
+let html = "";
+
+home.forEach((p,i)=>{
+
+html += `
+<div class="product">
+
+<img src="${p.img}">
+
+<h3>${p.name}</h3>
+
+<p><b>₹${p.price}</b></p>
+
+<p>${p.stock}</p>
+
+<button class="btn" onclick="order('${p.name}')">
+WhatsApp
+</button>
+
+${isAdmin ? `
+
+<button class="btn"
+style="background:red;color:white;"
+onclick="removeHome(${i})">
+Remove
+</button>
+
+<button class="btn"
+style="background:green;color:white;"
+onclick="moveToNew(${i})">
+To New
+</button>
+
+` : ""}
+
+</div>
+`;
+
+});
+
+document.getElementById("home").innerHTML = html;
+
+}
+
+/* RENDER NEW */
+
+function renderNew(){
+
+let html = "";
+
+newArrivals.forEach((p,i)=>{
+
+html += `
+<div class="product">
+
+<img src="${p.img}">
+
+<h3>${p.name}</h3>
+
+<p><b>₹${p.price}</b></p>
+
+<p>${p.stock}</p>
+
+<button class="btn" onclick="order('${p.name}')">
+WhatsApp
+</button>
+
+${isAdmin ? `
+
+<button class="btn"
+style="background:red;color:white;"
+onclick="removeNew(${i})">
+Remove
+</button>
+
+<button class="btn"
+style="background:orange;color:white;"
+onclick="moveToHome(${i})">
+To Home
+</button>
+
+` : ""}
+
+</div>
+`;
+
+});
+
+document.getElementById("new").innerHTML = html;
+
+}
+
+/* MOVE */
+
+function moveToNew(i){
+
+newArrivals.push(home[i]);
+
+home.splice(i,1);
+
+saveData();
+
+}
+
+function moveToHome(i){
+
+home.push(newArrivals[i]);
+
+newArrivals.splice(i,1);
+
+saveData();
+
+}
+
+/* REMOVE */
+
+function removeHome(i){
+
+home.splice(i,1);
+
+saveData();
+
+}
+
+function removeNew(i){
+
+newArrivals.splice(i,1);
+
+saveData();
+
+}
+
+/* WHATSAPP */
+
+function order(name){
+
+window.open(
+"https://wa.me/918121969815?text=Hello Mohsin Fashion, I want to order "+name
+);
+
+}
+
+/* LOGIN */
+
+function login(){
+
+if(document.getElementById("pass").value === adminPassword){
+
+isAdmin = true;
+
+document.getElementById("panel").classList.remove("hidden");
+
+document.getElementById("logoutBtn").classList.remove("hidden");
+
+renderHome();
+
+renderNew();
+
+alert("Admin Login Success");
+
+}else{
+
+alert("Wrong Password");
+
+}
+
+}
+
+/* LOGOUT */
+
+function logout(){
+
+isAdmin = false;
+
+document.getElementById("panel").classList.add("hidden");
+
+document.getElementById("logoutBtn").classList.add("hidden");
+
+renderHome();
+
+renderNew();
+
+}
+
+/* ADD PRODUCT */
+
+function addProduct(){
+
+let name = document.getElementById("name").value;
+
+let price = document.getElementById("price").value;
+
+let stock = document.getElementById("stock").value;
+
+let file = document.getElementById("img").files[0];
+
+if(name === "" || price === "" || stock === ""){
+
+alert("Please fill all fields");
+
+return;
+
+}
+
+function add(img){
+
+home.push({
+name,
+price,
+stock,
+img
+});
+
+saveData();
+
+showHome();
+
+/* CLEAR */
+
+document.getElementById("name").value = "";
+
+document.getElementById("price").value = "";
+
+document.getElementById("stock").value = "";
+
+document.getElementById("img").value = "";
+
+alert("Product Added Successfully");
+
+}
+
+/* IMAGE */
+
+if(file){
+
+readImage(file, add);
+
+}else{
+
+add("https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=600&q=80");
+
+}
+
+}
+
+/* SAVE */
+
+function saveData(){
+
+localStorage.setItem(
+"homeProducts",
+JSON.stringify(home)
+);
+
+localStorage.setItem(
+"newProducts",
+JSON.stringify(newArrivals)
+);
+
+renderHome();
+
+renderNew();
+
+}
+
+/* LOAD */
+
+function loadData(){
+
+try{
+
+let savedHome = localStorage.getItem("homeProducts");
+
+let savedNew = localStorage.getItem("newProducts");
+
+if(savedHome && JSON.parse(savedHome).length > 0){
+
+home = JSON.parse(savedHome);
+
+}else{
+
+home = [...defaultHome];
+
+}
+
+if(savedNew){
+
+newArrivals = JSON.parse(savedNew);
+
+}else{
+
+newArrivals = [];
+
+}
+
+renderHome();
+
+renderNew();
+
+}catch(error){
+
+console.log(error);
+
+home = [...defaultHome];
+
+newArrivals = [];
+
+renderHome();
+
+renderNew();
+
+}
+
+}
+
+/* START */
+
+window.onload = function(){
+
+loadData();
+
+};
+
+</script>
+
+</body>
+</html>
